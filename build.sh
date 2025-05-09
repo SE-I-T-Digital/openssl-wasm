@@ -4,12 +4,15 @@ NPROCESSORS=$(getconf NPROCESSORS_ONLN 2>/dev/null || getconf _NPROCESSORS_ONLN 
 
 cd openssl || exit 1
 
+export CFLAGS=" -Xclang -target-feature -Xclang +atomics -Xclang -target-feature -Xclang +bulk-memory"
+export CPPFLAGS="-Xclang -target-feature -Xclang +atomics -Xclang -target-feature -Xclang +bulk-memory" 
+
 env \
     CROSS_COMPILE="" \
     AR="zig ar" \
     RANLIB="zig ranlib" \
     CC="zig cc --target=wasm32-wasi -mbulk-memory -atomics " \
-    CFLAGS="-Ofast -Werror -Qunused-arguments -Wno-shift-count-overflow" \
+    CFLAGS="$CFLAGS -Ofast -Werror -Qunused-arguments -Wno-shift-count-overflow" \
     CPPFLAGS="$CPPFLAGS -D_BSD_SOURCE -D_WASI_EMULATED_GETPID -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
     CXXFLAGS="-Werror -Qunused-arguments -Wno-shift-count-overflow" \
     LDFLAGS="-s -lwasi-emulated-getpid" \
