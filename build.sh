@@ -8,7 +8,7 @@ env \
     CROSS_COMPILE="" \
     AR="zig ar" \
     RANLIB="zig ranlib" \
-    CC="zig cc --target=wasm32-wasi" \
+    CC="zig cc --target=wasm32-wasi -mbulk-memory -atomics " \
     CFLAGS="-Ofast -Werror -Qunused-arguments -Wno-shift-count-overflow" \
     CPPFLAGS="$CPPFLAGS -D_BSD_SOURCE -D_WASI_EMULATED_GETPID -Dgetuid=getpagesize -Dgeteuid=getpagesize -Dgetgid=getpagesize -Dgetegid=getpagesize" \
     CXXFLAGS="-Werror -Qunused-arguments -Wno-shift-count-overflow" \
